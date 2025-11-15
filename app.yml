@@ -1,0 +1,23 @@
+# GitHub App configuration
+# This file defines the permissions and events for the GitHub App
+
+# The name of the GitHub App
+name: Toasty
+
+# A short description of the GitHub App
+description: A GitHub App that responds to /plan commands on issues
+
+# The homepage URL for the app
+url: https://github.com/OWASP-BLT/Toasty
+
+# Webhook events the app subscribes to
+default_events:
+  - issue_comment
+
+# The set of permissions needed by the GitHub App
+default_permissions:
+  issues: write
+  contents: read
+
+# Public or private app
+public: true
