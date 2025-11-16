@@ -28,7 +28,7 @@ def handle_pr_opened(payload: Dict[str, Any]) -> None:
 
     pr = payload.get("pull_request", {})
     repo = payload.get("repository", {})
-    
+
     pr_number = pr.get("number")
     pr_title = pr.get("title", "No title")
     pr_body = pr.get("body", "No description")
@@ -47,7 +47,7 @@ def handle_pr_opened(payload: Dict[str, Any]) -> None:
 
     # Generate AI review
     review = ai_service.analyze_pr(pr_title, pr_body, diff, files or [])
-    
+
     if not review:
         logger.error(f"Failed to generate review for PR #{pr_number}")
         return
@@ -77,7 +77,7 @@ def handle_pr_synchronize(payload: Dict[str, Any]) -> None:
 
     pr = payload.get("pull_request", {})
     repo = payload.get("repository", {})
-    
+
     pr_number = pr.get("number")
     pr_title = pr.get("title", "No title")
     pr_body = pr.get("body", "No description")
@@ -96,7 +96,7 @@ def handle_pr_synchronize(payload: Dict[str, Any]) -> None:
 
     # Generate updated review
     review = ai_service.analyze_pr(pr_title, pr_body, diff, files or [])
-    
+
     if not review:
         logger.error(f"Failed to generate review for PR #{pr_number}")
         return
@@ -131,7 +131,7 @@ def handle_pr_event(payload: Dict[str, Any]) -> None:
         payload: GitHub webhook payload
     """
     action = payload.get("action")
-    
+
     if action == "opened":
         handle_pr_opened(payload)
     elif action == "synchronize":

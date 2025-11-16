@@ -27,7 +27,7 @@ def handle_comment_created(payload: Dict[str, Any]) -> None:
     comment = payload.get("comment", {})
     issue = payload.get("issue", {})
     repo = payload.get("repository", {})
-    
+
     comment_body = comment.get("body", "")
     commenter = comment.get("user", {}).get("login")
     issue_number = issue.get("number")
@@ -57,7 +57,7 @@ def handle_comment_created(payload: Dict[str, Any]) -> None:
 
     # Generate AI response
     response = ai_service.respond_to_comment(comment_body, context)
-    
+
     if not response:
         logger.error(f"Failed to generate response for comment on #{issue_number}")
         return
@@ -80,7 +80,7 @@ def handle_comment_event(payload: Dict[str, Any]) -> None:
         payload: GitHub webhook payload
     """
     action = payload.get("action")
-    
+
     if action == "created":
         handle_comment_created(payload)
     else:

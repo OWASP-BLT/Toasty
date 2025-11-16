@@ -2,7 +2,7 @@
 
 import json
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException, Request, status
 from fastapi.responses import JSONResponse
@@ -28,7 +28,7 @@ app = FastAPI(
 
 
 @app.get(settings.health_check_path)
-async def health_check() -> Dict[str, str]:
+async def health_check() -> dict[str, str]:
     """
     Health check endpoint.
 
@@ -80,7 +80,7 @@ async def webhook_handler(
 
     # Parse JSON payload
     try:
-        payload: Dict[str, Any] = json.loads(body)
+        payload: dict[str, Any] = json.loads(body)
     except json.JSONDecodeError as e:
         logger.error(f"Invalid JSON payload: {e}")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid JSON")
@@ -120,7 +120,7 @@ async def webhook_handler(
 
 
 @app.get("/")
-async def root() -> Dict[str, str]:
+async def root() -> dict[str, str]:
     """
     Root endpoint.
 

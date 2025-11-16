@@ -27,7 +27,7 @@ def handle_issue_opened(payload: Dict[str, Any]) -> None:
 
     issue = payload.get("issue", {})
     repo = payload.get("repository", {})
-    
+
     issue_number = issue.get("number")
     issue_title = issue.get("title", "No title")
     issue_body = issue.get("body", "No description")
@@ -38,7 +38,7 @@ def handle_issue_opened(payload: Dict[str, Any]) -> None:
 
     # Generate AI analysis
     analysis = ai_service.analyze_issue(issue_title, issue_body)
-    
+
     if not analysis:
         logger.error(f"Failed to generate analysis for issue #{issue_number}")
         return
@@ -68,7 +68,7 @@ def handle_issue_edited(payload: Dict[str, Any]) -> None:
 
     issue = payload.get("issue", {})
     repo = payload.get("repository", {})
-    
+
     issue_number = issue.get("number")
     issue_title = issue.get("title", "No title")
     issue_body = issue.get("body", "No description")
@@ -79,7 +79,7 @@ def handle_issue_edited(payload: Dict[str, Any]) -> None:
 
     # Generate updated analysis
     analysis = ai_service.analyze_issue(issue_title, issue_body)
-    
+
     if not analysis:
         logger.error(f"Failed to generate analysis for issue #{issue_number}")
         return
@@ -114,7 +114,7 @@ def handle_issue_event(payload: Dict[str, Any]) -> None:
         payload: GitHub webhook payload
     """
     action = payload.get("action")
-    
+
     if action == "opened":
         handle_issue_opened(payload)
     elif action == "edited":
