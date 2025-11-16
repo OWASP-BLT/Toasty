@@ -1,0 +1,73 @@
+{
+    "type": "object",
+    "properties": {
+        "action": {
+            "type": "string",
+            "enum": ["opened", "synchronize", "reopened", "edited"]
+        },
+        "pull_request": {
+            "type": "object",
+            "properties": {
+                "number": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "title": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "body": {
+                    "type": ["string", "null"],
+                    "default": null
+                },
+                "commits": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "changed_files": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "diff_url": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "user": {
+                    "type": "object",
+                    "properties": {
+                        "login": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["login", "type"]
+                }
+            },
+            "required": ["number", "title", "user"]
+        },
+        "repository": {
+            "type": "object",
+            "properties": {
+                "full_name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "object",
+                    "properties": {
+                        "login": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["login"]
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": ["full_name", "owner", "name"]
+        }
+    },
+    "required": ["action", "pull_request", "repository"]
+}

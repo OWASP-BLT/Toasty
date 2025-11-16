@@ -1,0 +1,68 @@
+{
+    "type": "object",
+    "properties": {
+        "action": {
+            "type": "string",
+            "enum": ["created", "edited"]
+        },
+        "comment": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "body": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "user": {
+                    "type": "object",
+                    "properties": {
+                        "login": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["login", "type"]
+                }
+            },
+            "required": ["body", "user"]
+        },
+        "issue": {
+            "type": "object",
+            "properties": {
+                "number": {
+                    "type": "integer"
+                },
+                "pull_request": {
+                    "type": "object"
+                }
+            },
+            "required": ["number"]
+        },
+        "repository": {
+            "type": "object",
+            "properties": {
+                "full_name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "object",
+                    "properties": {
+                        "login": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["login"]
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": ["full_name", "owner", "name"]
+        }
+    },
+    "required": ["action", "comment", "issue", "repository"]
+}

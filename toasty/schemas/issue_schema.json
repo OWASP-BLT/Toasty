@@ -1,0 +1,72 @@
+{
+    "type": "object",
+    "properties": {
+        "action": {
+            "type": "string",
+            "enum": ["opened", "edited", "reopened"]
+        },
+        "issue": {
+            "type": "object",
+            "properties": {
+                "number": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "title": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "body": {
+                    "type": ["string", "null"],
+                    "default": null
+                },
+                "user": {
+                    "type": "object",
+                    "properties": {
+                        "login": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["login", "type"]
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "required": ["number", "title", "user"]
+        },
+        "repository": {
+            "type": "object",
+            "properties": {
+                "full_name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "object",
+                    "properties": {
+                        "login": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["login"]
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": ["full_name", "owner", "name"]
+        }
+    },
+    "required": ["action", "issue", "repository"]
+}
