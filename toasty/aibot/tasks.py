@@ -297,7 +297,7 @@ def process_issue_comment_task(installation_id: str, repo_id: str, issue: Dict[s
     conversation = "\n".join(conversation_parts)
 
     response = generate_conversation_query(conversation)
-    logger.debug("Recieved conv query response: %s", response)
+    logger.debug("Received conv query response: %s", response)
     conversation_cleaned_json = extract_json_block(response["text"])
     conversation_query_json = json.loads(conversation_cleaned_json)
     query = conversation_query_json["query"]
