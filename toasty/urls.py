@@ -18,6 +18,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from toasty.aibot.main import aibot_health_check, aibot_webhook_entrypoint
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("aibot/", aibot_webhook_entrypoint, name="aibot_webhook_entrypoint"),
+    path("aibot/health/", aibot_health_check, name="aibot_health_check"),
 ]

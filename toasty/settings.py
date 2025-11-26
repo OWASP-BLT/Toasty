@@ -5,12 +5,36 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# GitHub AIBot Configuration
+GITHUB_AIBOT_APP_NAME = os.environ.get("GITHUB_AIBOT_APP_NAME")
+GITHUB_AIBOT_APP_ID = os.environ.get("GITHUB_AIBOT_APP_ID")
+GITHUB_AIBOT_PRIVATE_KEY_B64 = os.environ.get("GITHUB_AIBOT_PRIVATE_KEY_B64")
+GITHUB_AIBOT_WEBHOOK_SECRET = os.environ.get("GITHUB_AIBOT_WEBHOOK_SECRET")
+
+# Gemini AI Configuration
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "blank")
+GEMINI_GENERATION_MODEL = os.environ.get("GEMINI_GENERATION_MODEL")
+GEMINI_EMBEDDING_MODEL = os.environ.get("GEMINI_EMBEDDING_MODEL")
+
+# Celery Configuration
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = "UTC"
+
+# Qdrant Vector DB Configuration
+QDRANT_HOST = os.environ.get("QDRANT_HOST", "qdrant")
+QDRANT_VECTOR_SIZE = int(os.environ.get("QDRANT_VECTOR_SIZE", "768"))
+QDRANT_HTTP_PORT = int(os.environ.get("QDRANT_HTTP_PORT", "6333"))
 
 
 # Application definition
@@ -22,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "toasty.aibot",
 ]
 
 MIDDLEWARE = [
@@ -105,3 +130,17 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Redis Cache Configuration
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    },
+    "redis": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.environ.get("REDIS_URL", "redis://redis:6379/0"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+}
