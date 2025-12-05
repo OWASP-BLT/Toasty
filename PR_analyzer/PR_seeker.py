@@ -1,22 +1,6 @@
 from github import Github
 import os
 
-
-'''
-f = open("Output.txt", "w")
-
-PERSONAL_TOKEN = os.getenv('PERSONAL_TOKEN')
-
-g = Github(PERSONAL_TOKEN)
-repo = g.get_repo("OWASP-BLT/BLT")
-
-pulls = repo.get_pulls(state='all')
-for pr in pulls:
-    print(pr.title, pr.body)
-    f.write(f"Title: {pr.title}\n")
-    f.write(f"Body: {pr.body}\n\n")
-'''
-
 class Seeker:
     def __init__(self):
         self.PERSONAL_TOKEN = os.getenv('PERSONAL_TOKEN')
@@ -40,7 +24,15 @@ class Seeker:
                 store_dict['Body'] = pr.body
                 store_list.append(store_dict)
                 #self.f.writelines(store_list)
-        print(store_list)
+        return store_list
 
+'''
 seeker_obj = Seeker()
-seeker_obj.forward("OWASP-BLT/Toasty")
+lst_store = []
+lst_store = seeker_obj.forward("OWASP-BLT/Toasty")
+#print("Title: ", lst_store[3]['Title'], "\n\n")
+#print("Body: ", lst_store[3]['Body'])
+
+print(lst_store[3]['Title'], "\n\n")
+print(lst_store[3]['Body'])
+'''
