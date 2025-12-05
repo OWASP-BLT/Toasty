@@ -27,7 +27,7 @@ class Seeker:
 
 💬 We'd love your input! Share your thoughts on Copilot coding agent in our [2 minute survey](https://gh.io/copilot-coding-agent-survey)."""
 
-        self.f = open("Output.txt", "w")
+        #self.f = open("Output.txt", "w")
     def forward(self, repository:str):
         g = Github(self.PERSONAL_TOKEN)
         repo = g.get_repo(repository)
@@ -39,8 +39,8 @@ class Seeker:
                 store_dict['Title'] = pr.title
                 store_dict['Body'] = pr.body
                 store_list.append(store_dict)
-                self.f.writelines(store_list)
+                #self.f.writelines(store_list)
         print(store_list)
 
-#seeker_obj = Seeker()
-#seeker_obj.forward("OWASP-BLT/Toasty")
+seeker_obj = Seeker()
+seeker_obj.forward("OWASP-BLT/Toasty")

@@ -74,3 +74,8 @@ response = client.chat.completions(
 )
 
 print(response.choices[0].message.content)
+
+class generator:
+    def __init__(self):
+        self.
+    def forward(self):
