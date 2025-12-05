@@ -26,8 +26,7 @@ class Generator:
         )
         
         return response.choices[0].message.content
-
-
+'''
 generator = Generator()
 seeker = Seeker()
 response = ''
@@ -38,3 +37,4 @@ for i in range(len(store_lst)):
 
     response = generator.forward(title, body)
     print(response)
+'''
