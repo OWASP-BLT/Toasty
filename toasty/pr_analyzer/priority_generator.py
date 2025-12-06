@@ -26,15 +26,3 @@ class Generator:
         )
         
         return response.choices[0].message.content
-'''
-generator = Generator()
-seeker = Seeker()
-response = ''
-store_lst = seeker.forward('OWASP-BLT/Toasty')
-for i in range(len(store_lst)):
-    title = store_lst[i]['Title']
-    body = store_lst[i]['Body']
-
-    response = generator.forward(title, body)
-    print(response)
-'''

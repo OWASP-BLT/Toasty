@@ -25,14 +25,3 @@ class Seeker:
                 store_list.append(store_dict)
                 #self.f.writelines(store_list)
         return store_list
-
-'''
-seeker_obj = Seeker()
-lst_store = []
-lst_store = seeker_obj.forward("OWASP-BLT/Toasty")
-#print("Title: ", lst_store[3]['Title'], "\n\n")
-#print("Body: ", lst_store[3]['Body'])
-
-print(lst_store[3]['Title'], "\n\n")
-print(lst_store[3]['Body'])
-'''
