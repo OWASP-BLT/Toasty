@@ -10,9 +10,9 @@ generator = Generator()
 client = SarvamAI(api_subscription_key=os.getenv("SARVAM_API_KEY"))
 
 # Priority segregation.
-high = [" Bug Fix", " Performance Improvement", " Security Fix"]
-mid = [" Feature Addition", " Refactoring", " Testing"]
-low = [" Documentation Update", " Others"]
+high = ["Bug Fix", "Performance Improvement", "Security Fix"]
+mid = ["Feature Addition", "Refactoring", "Testing"]
+low = ["Documentation Update", "Others"]
 
 gh_link = input("Enter repo link: ").strip()
 # Converting repo links to a 'owner/repo' format, without requiring the maintainer to format it themselves, thus reducing the cognitive load needed (to an extent).
@@ -36,7 +36,7 @@ for i in range(len(store_lst)):
     title = store_lst[i]['Title']
     body = store_lst[i]['Body']
 
-    response = generator.forward(title, body)
+    response = generator.forward(title, body).strip()
     
     if response in high:
         print(response, ": high")
