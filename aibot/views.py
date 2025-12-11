@@ -80,7 +80,7 @@ def handle_issue_comment(payload):
             return JsonResponse({"message": "Pong sent!"})
         except Exception as e:
             logger.error(f"Error sending pong: {e}")
-            return JsonResponse({"error": str(e)}, status=500)
+            return JsonResponse({"error": "Failed to send response. Check server logs for details."}, status=500)
 
     return JsonResponse({"message": "No command recognized"})
 

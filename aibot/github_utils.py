@@ -16,7 +16,13 @@ class GitHubAppAuth:
     """Handle GitHub App authentication and API requests."""
 
     def __init__(self):
-        self.app_id = settings.GITHUB_APP_ID
+        # Validate required settings
+        if not settings.GITHUB_APP_ID:
+            raise ValueError("GITHUB_APP_ID environment variable is required")
+        if not settings.GITHUB_APP_INSTALLATION_ID:
+            raise ValueError("GITHUB_APP_INSTALLATION_ID environment variable is required")
+
+        self.app_id = str(settings.GITHUB_APP_ID)
         self.private_key = self._load_private_key()
         self.installation_id = settings.GITHUB_APP_INSTALLATION_ID
 
@@ -56,10 +62,17 @@ class GitHubAppAuth:
         }
 
         url = f"https://api.github.com/app/installations/{self.installation_id}/access_tokens"
-        response = requests.post(url, headers=headers, timeout=10)
-        response.raise_for_status()
-
-        return response.json()["token"]
+        try:
+            response = requests.post(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            return response.json()["token"]
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 401:
+                raise ValueError("GitHub App authentication failed. Check your App ID and private key.") from e
+            elif e.response.status_code == 404:
+                raise ValueError("GitHub App installation not found. Check your installation ID.") from e
+            else:
+                raise ValueError(f"GitHub API error: {e.response.status_code}") from e
 
     def create_comment(self, owner, repo, issue_number, body):
         """Create a comment on an issue or pull request."""
@@ -74,10 +87,17 @@ class GitHubAppAuth:
         url = f"https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments"
         data = {"body": body}
 
-        response = requests.post(url, headers=headers, json=data, timeout=10)
-        response.raise_for_status()
-
-        return response.json()
+        try:
+            response = requests.post(url, headers=headers, json=data, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 403:
+                raise ValueError("GitHub App lacks permission to comment. Check repository permissions.") from e
+            elif e.response.status_code == 404:
+                raise ValueError(f"Repository or issue not found: {owner}/{repo}#{issue_number}") from e
+            else:
+                raise ValueError(f"GitHub API error: {e.response.status_code}") from e
 
 
 def verify_webhook_signature(request):
