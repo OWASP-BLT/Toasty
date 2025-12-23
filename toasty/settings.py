@@ -1,4 +1,5 @@
 import os
+import warnings
 
 from pathlib import Path
 
@@ -6,6 +7,16 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    SECRET_KEY = "django-insecure-test-key-for-development-only"
+    warnings.warn("SECRET_KEY not set in environment. Using default (insecure for production).", UserWarning)
+
+# GitHub App Configuration
+GITHUB_APP_ID = os.getenv("GITHUB_APP_ID")
+GITHUB_APP_PRIVATE_KEY_PATH = os.getenv("GITHUB_APP_PRIVATE_KEY_PATH")
+GITHUB_APP_PRIVATE_KEY = os.getenv("GITHUB_APP_PRIVATE_KEY")
+GITHUB_WEBHOOK_SECRET = os.getenv("GITHUB_WEBHOOK_SECRET")
+GITHUB_APP_INSTALLATION_ID = os.getenv("GITHUB_APP_INSTALLATION_ID")
 
 DEBUG = True
 
@@ -33,6 +44,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# Allowed hosts for webhook (update for production)
+CSRF_TRUSTED_ORIGINS = []
 
 ROOT_URLCONF = "toasty.urls"
 
